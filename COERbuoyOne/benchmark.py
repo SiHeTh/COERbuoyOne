@@ -155,7 +155,7 @@ def benchmark(ctrl):
     for j1 in arr:
         print(j1);
         #if False:
-        f=open(pkg_dir+"/coerbuoy1/floater.txt","w");
+        f=open(os.path.join(pkg_dir,"coerbuoy1","floater.txt"),"w");
         f.write("""{"geo":[{"type":"cone","coord":[-4.5,0,-2,3]},
 {"type":"cone","coord":[-2,3,-1,3.7]},
 {"type":"cone","coord":[-1,3.7,0,4]},

@@ -1,43 +1,41 @@
 # COERbuoy1 benchmark
 A realistic benchmark for Wave Enegery Converter controllers
 
-The commands how to run python might differ between systems, and the ones presented here might not work on every machine. Please refer to https://www.python.org/downloads/ to find the correct commands for your system.
+The commands how to run python might differ between systems, and the ones presented here might not work on every machine. Please see https://www.python.org/ to find the correct commands for your system.
 
-# Installation
-Download python3: https://www.python.org/downloads/
+## Installation
+Download [python3](https://www.python.org/downloads/).
 
-Install COERbuoy using pip:
+Install COERbuoyOne using pip:
 
-Windows: py -m pip install https://github.com/SiHeTh/COERbuoy/raw/main/dist/COERbuoy-0.1.2-py3-none-any.whl 
+| Windows                   |
+|:--------------------------|
+|`py -m pip install https://github.com/SiHeTh/COERbuoyOne/raw/main/dist/COERbuoyOne-0.1.0-py3-none-any.whl`|             
 
-Linux/MacOS: pip install https://github.com/SiHeTh/COERbuoy/raw/main/dist/COERbuoy-0.1.2-py3-none-any.whl
+| Linux/MacOS                     |
+|:--------------------------------|
+| `pip install https://github.com/SiHeTh/COERbuoyOne/raw/main/dist/COERbuoyOne-0.1.0-py3-none-any.whl`|
 
-# Run COERbuoy1 (terminal)
-## Bretschneider sea state:
+## Run COERbuoy1
 
-With significant wave height 1.5 m and wave energy period of 6 s and a linear generator damping:
+Run benchmark:
+Run graphical user interface:
 
-Windows: py -m COERbuoy --bretschneider_wave 1.5 6 results.csv linear
+| Windows                   | &nbsp;&nbsp; | Linux/MacOS                     |
+|:--------------------------|--------------|:--------------------------------|
+|`py -m COERbuoyOne --benchmark`| | `python3 -m COERbuoyOne --benchmark` |
 
-Linux/MacOS: python3 -m COERbuoy --bretschneider_wave 1.5 6 results.csv linear
+Run graphical user interface:
 
+| Windows                   | &nbsp;&nbsp; | Linux/MacOS                     |
+|:--------------------------|--------------|:--------------------------------|
+|`py -m COERbuoyOne --GUI`| | `python3 -m COERbuoyOne --GUI` |
 
-## Regular wave:
+##Documentation and further information
 
-With wave height 1.5 m and wave period of 6 s and a linear generator damping:
+COERbuoyOne is an extension for the [COERbuoy platform](https://github.com/SiHeTh/COERbuoy), which provides further documentation and [examples] (https://github.com/SiHeTh/COERbuoy/tree/main/examples).
 
-Windows: py -m COERbuoy --regular_wave 1.5 6 results.csv linear
-
-Linux/MacOS: python3 -m COERbuoy --regular_wave 1.5 6 results.csv linear
-
-# Run COERbuoy1 GUI
-
-Windows: py -m COERbuoy.GUIServer
-
-Linux/MacOS: python3 -m COERbuoy.GUIServer
-
-.. then open http://localhost:8080 in a web browser.
-
+A graphical documentation can be found in the [docs folder](https://github.com/SiHeTh/COERbuoyOne/tree/master/docs).
 
 #Funding
 This research was part-funded byScience Foundation Ireland (SFI) through MaREI, the SFI Research Centre for Energy, Climate, and Marine [Grant No: 12/RC/2302 P2], with supporting funding obtained from CorPower Ocean AB.
