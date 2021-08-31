@@ -89,17 +89,17 @@ def benchmark(ctrl):
     #Write settings file
     if (easy):
         with open("coerbuoy_settings.txt","w") as f:
-            f.write("""{"hydro":"Floater_BEM",\n"WECfolder":"""""+pkg_dir+"/coerbuoy1/"+""""",\n"resolution":0.01\n,"status_message":[1,1,1,1,1,1,1,1]}""");
+            f.write("""{"hydro":"Floater_BEM",\n"WECfolder":"""""+os.path.join(pkg_dir,"coerbuoy1")+""""",\n"resolution":0.01\n,"status_message":[1,1,1,1,1,1,1,1]}""");
     else:
         with open("coerbuoy_settings.txt","w") as f:
-            f.write("""{"hydro":"Floater_BEM",\n"WECfolder":"""+'"'+pkg_dir+"/coerbuoy1/"+'"'+""",
+            f.write("""{"hydro":"Floater_BEM",\n"WECfolder":"""+'"'+os.path.join(pkg_dir,"coerbuoy1")+'"'+""",
 "resolution":0.01,
 "status_message":[1,0,0,1,1,1,1,1]}""");
 
     power=0;
     x_lim=x_limit;#dyn_wec.x_lim;
     
-    folder=pkg_dir+"/benchmark/";
+    folder=os.path.join(pkg_dir,"benchmark");
     
     import COERbuoy;
     def power (T,H):
