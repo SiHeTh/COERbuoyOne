@@ -162,7 +162,7 @@ def benchmark(ctrl):
 {"type":"cone","coord":[0,4,1,3.7]},
 {"type":"cone","coord":[1,3.7,2,3]},
 {"type":"cone","coord":[2,3,4.5,0]}],
-"negative_spring_force":"""+str(500000*rand1[j1]*0.8)+""",
+"negative_spring_force":"""+str(500000*(1+rand1[j1]*0.2))+""",
 "negative_spring_length":1.85,
 "negative_spring_stroke":5,
 "viscous_drag_coefficient_heave":0.2,
@@ -172,11 +172,11 @@ def benchmark(ctrl):
 "generator_c_L":60,
 "generator_c_lambda":4000,
 "generator_I_s":300,
-"friction_force_static":"""+str(30000*rand2[j1]*0.8)+""",
+"friction_force_static":"""+str(30000*(1+rand2[j1]*0.2))+""",
 "friction_force_kinetic":15000,
-"friction_damping":"""+str(7500*rand3[j1]*0.9)+""",
+"friction_damping":"""+str(7500*(1+rand3[j1]*0.4))+""",
 "angle_limit":15,
-"l_mooring":"""+str(20*rand4[j1]*0.8)+""",
+"l_mooring":"""+str(20*(1+rand4[j1]*0.2))+""",
 "angle_limit":"""+str((1-easy)*15)+"""
 }""");
         f.close();
