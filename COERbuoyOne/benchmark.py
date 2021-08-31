@@ -27,6 +27,7 @@ omega_cut_off=3.5;
 
 # Regular wave (Height, period, name, control)
 def reg_wave(H,p,n,ctrl):
+    import COERbuoy;
     print("Regular wave")
     H=float(H)*1.4;
     p=float(p);
@@ -41,6 +42,7 @@ def reg_wave(H,p,n,ctrl):
 
 # Brettschneider wave (significant wave height, energy period, name, control)
 def brettschneider_wave(Hs,p,n,ctrl):
+    import COERbuoy;
     print("Brettschneider wave")
     Hs=float(Hs);
     p=float(p);
@@ -59,6 +61,7 @@ def brettschneider_wave(Hs,p,n,ctrl):
 
 # Brettschneider wave (significant wave height, energy period, name, control, WEC parameter file)
 def brettschneider2_wave(Hs,p,n,ctrl):
+    import COERbuoy;
     print("Brettschneider wave")
     omega=np.linspace(0.001,4,200);
     omega_m=2*np.pi/(p/0.856);
@@ -89,10 +92,10 @@ def benchmark(ctrl):
     #Write settings file
     if (easy):
         with open("coerbuoy_settings.txt","w") as f:
-            f.write("""{"hydro":"Floater_BEM",\n"WECfolder":"""""+os.path.join(pkg_dir,"coerbuoy1")+""""",\n"resolution":0.01\n,"status_message":[1,1,1,1,1,1,1,1]}""");
+            f.write("""{"hydro":"Floater_BEM",\n"WECfolder":"""+'"'+os.path.join(pkg_dir,"coerbuoy1").replace("\\","/")+'"'+""",\n"resolution":0.01\n,"status_message":[1,1,1,1,1,1,1,1]}""");
     else:
         with open("coerbuoy_settings.txt","w") as f:
-            f.write("""{"hydro":"Floater_BEM",\n"WECfolder":"""+'"'+os.path.join(pkg_dir,"coerbuoy1")+'"'+""",
+            f.write("""{"hydro":"Floater_BEM",\n"WECfolder":"""+'"'+os.path.join(pkg_dir,"coerbuoy1").replace("\\","/")+'"'+""",
 "resolution":0.01,
 "status_message":[1,0,0,1,1,1,1,1]}""");
 
