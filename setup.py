@@ -9,7 +9,7 @@ setup(
    url='http://coerbuoy.maynoothuniversity.ie',
    license='LICENSE.txt',
    description='A realistic benchmark for Wave Enegery Converter controllers',
-   long_description=open('README.md').read(),
+   long_description=open('README.txt').read(),
    install_requires=[
        "numpy",
        "scipy",
