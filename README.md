@@ -1,4 +1,5 @@
-# COERbuoy1 benchmark
+![COERbuoy1 logo](coerbuoyOne.png)
+# COERbuoy1 model & benchmark
 A realistic benchmark for Wave Enegery Converter controllers
 
 The commands how to run python might differ between systems, and the ones presented here might not work on every machine. Please see https://www.python.org/ to find the correct commands for your system.
@@ -10,11 +11,11 @@ Install COERbuoyOne using pip:
 
 | Windows                   |
 |:--------------------------|
-|`py -m pip install https://github.com/SiHeTh/COERbuoyOne/raw/main/dist/COERbuoyOne-0.1.0-py3-none-any.whl`|             
+|`py -m pip install COERbuoyOne`|             
 
 | Linux/MacOS                     |
 |:--------------------------------|
-| `pip install https://github.com/SiHeTh/COERbuoyOne/raw/main/dist/COERbuoyOne-0.1.0-py3-none-any.whl`|
+| `pip install COERbuoyOne`|
 
 ## Run COERbuoy1
 

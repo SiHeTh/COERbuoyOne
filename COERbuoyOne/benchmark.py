@@ -85,9 +85,8 @@ def quartil (a, p):
         return 0;
     return b[np.argmax(np.cumsum(b)/aa>p)];
     
-def benchmark(ctrl):
+def benchmark(ctrl,easy):
     print("Benchmark COERbuoy1")
-    easy=0;
     
     #Write settings file
     if (easy):
@@ -150,11 +149,11 @@ def benchmark(ctrl):
     rand1=rand1[:6*4];
     
     cw=np.zeros(len(rand1));
-    
+
     rng=np.random.default_rng();
     arr=np.arange(len(rand1));
     rng.shuffle(arr);
-    #regular, irregular tests (normal+modelling errors tes)t
+    #regular, irregular tests (normal+modelling errors test)
     for j1 in arr:
         print(j1);
         #if False:
@@ -175,17 +174,19 @@ def benchmark(ctrl):
 "generator_c_L":60,
 "generator_c_lambda":4000,
 "generator_I_s":300,
+"heave_only":"""+str(easy)+""",
 "friction_force_static":"""+str(30000*(1+rand2[j1]*0.2))+""",
 "friction_force_kinetic":15000,
 "friction_damping":"""+str(7500*(1+rand3[j1]*0.4))+""",
 "angle_limit":15,
 "l_mooring":"""+str(20*(1+rand4[j1]*0.2))+""",
-"angle_limit":"""+str((1-easy)*15)+"""
+"angle_limit":15
 }""");
         f.close();
 
         
-        cw[j1]=cw[j1]+1/3*fktdict[fkt[j1]](heights[j1],periods[j1],folder+"benchmark"+str(j1)+".csv",ctrl)/power(periods[j1],heights[j1]);
+        print("Write to "+os.path.join(folder,"benchmark"+str(j1)+".csv"));
+        cw[j1]=cw[j1]+1/3*fktdict[fkt[j1]](heights[j1],periods[j1],os.path.join(folder,"benchmark"+str(j1)+".csv"),ctrl)/power(periods[j1],heights[j1]);
     print(cw)
     constraint_score=np.zeros(len(rand1));
     power_score=np.zeros(len(rand1));
@@ -193,9 +194,10 @@ def benchmark(ctrl):
     max_x=np.zeros(len(rand1));
     max_v=np.zeros(len(rand1));
     max_f=np.zeros(len(rand1));
-    
+    #cw=[0.28016265, 0.12318111, 0.08283574, 0.05843654, 0.07473666, 0.03710698, 0.02122793, 0.05248458, 0.07473666, 0.03710698, 0.02122793, 0.02384048, 0.07473666, 0.03710698, 0.02122793, 0.02384048, 0.07473666, 0.02488943, 0.02122793, 0.02384048, 0.07473666, 0.03710698, 0.02122793, 0.02384048]
+
     for i in range(len(rand1)):
-        a=np.array(pandas.read_csv(folder+"benchmark"+str(i)+".csv", header=1))
+        a=np.array(pandas.read_csv(os.path.join(folder,"benchmark"+str(i)+".csv"), header=1))
         t=a[:,0];
         h=a[:,2];
         v=a[:,3];
@@ -217,9 +219,9 @@ def benchmark(ctrl):
         
     #average the 4 runs for the modelling error test
     for j in np.arange(4):
-        power_score[8+j]      = np.mean(power_score[8+j:4:]);
-        constraint_score[8+j] = np.mean(constraint_score[8+j:4:]);
-        total_score[8+j]      = np.mean(total_score[8+j:4:]);
+        power_score[8+j]      = np.mean(power_score[8+j::4]);
+        constraint_score[8+j] = np.mean(constraint_score[8+j::4]);
+        total_score[8+j]      = np.mean(total_score[8+j::4]);
     
     power_score=power_score.round(3);
     constraint_score=constraint_score.round(3);
@@ -229,7 +231,7 @@ def benchmark(ctrl):
     row1=["regular_waves"]+total_score[:4].tolist()+[np.mean(power_score[:4]),np.mean(constraint_score[:4]),np.mean(total_score[:4])]
     row2=["irregular_waves"]+total_score[4:8].tolist()+[np.mean(power_score[4:8]),np.mean(constraint_score[4:8]),np.mean(total_score[4:8])]
     row3=["error_modelling"]+total_score[8:12].tolist()+[np.mean(power_score[8:12]),np.mean(constraint_score[8:12]),np.mean(total_score[8:12])]
-    row4=["total",0,0,0,0,np.mean(power_score[:]),np.mean(constraint_score[:]),np.mean(total_score[:])]
+    row4=["total",0,0,0,0,np.mean(power_score[:12]),np.mean(constraint_score[:12]),np.mean(total_score[:12])]
     
     pDf=pandas.DataFrame(np.vstack([row1,row2,row3,row4]),columns=row0)
     pDf.round(2).to_csv("benchmark_total.csv",index=False)
@@ -246,7 +248,8 @@ def benchmark(ctrl):
     ro=cert.getroot();
     
     today=date.today();
-    
+    if easy==2:
+        ctrl=ctrl+" (easy mode)"
     dic={'controller':"for "+ctrl+ ", issued on "+ today.strftime("%d.%m.%y")+".",
          'info':"Work in progress",
          
@@ -266,10 +269,10 @@ def benchmark(ctrl):
          's_power32':power_score[1+8],'s_con32':constraint_score[1+8],'score32':total_score[1+8],
          's_power33':power_score[2+8],'s_con33':constraint_score[2+8],'score33':total_score[2+8],
          's_power34':power_score[3+8],'s_con34':constraint_score[3+8],'score34':total_score[3+8],
-         's_power3':np.mean(power_score[8:]).round(2),'s_con3':np.mean(constraint_score[8:]).round(2),'score3':np.mean(total_score[8:]).round(2),
+         's_power3':np.mean(power_score[8:12]).round(2),'s_con3':np.mean(constraint_score[8:12]).round(2),'score3':np.mean(total_score[8:12]).round(2),
          
          
-         's_power':np.mean(power_score).round(2),'s_con':np.mean(constraint_score).round(2),'score':np.mean(total_score).round(2)};
+         's_power':np.mean(power_score[:12]).round(2),'s_con':np.mean(constraint_score[:12]).round(2),'score':np.mean(total_score[:12]).round(2)};
     
     for a1 in ro.iter('{http://www.w3.org/2000/svg}text'):
         cd = [b1 for b1 in a1];
@@ -282,7 +285,7 @@ def benchmark(ctrl):
               cd[0].text=(dic[a1.attrib['id']]);
         
         print(a1.attrib)
-    cert.write("certificate"+"ctrl"+"_"+today.strftime("%d%m%y")+".svg")
+    cert.write("certificate"+ctrl+"_"+today.strftime("%d%m%y")+".svg")
     return power;
 
 def run():
@@ -304,7 +307,7 @@ def run():
     
     if (ctrl != "exit"):
         print(ctrl)
-        benchmark(ctrl);
+        benchmark(ctrl,0);
 
 if __name__ == "__main__":
     run();

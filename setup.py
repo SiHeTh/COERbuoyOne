@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
    name='COERbuoyOne',
-   version='0.1.0',
+   version='0.2.0',
    author='Simon H. Thomas',
    author_email='simon.thomas.2021@mumail.ie',
    packages=['COERbuoyOne'],

@@ -95,6 +95,9 @@ class WEC():
             self.l=data.get("l_mooring",30);
             #angle limit
             self.alpha_lim=data.get("angle_limit",18)*(3.14/180);
+            #limit to 1D
+            self.heave_only=data.get("heave_only",0);
+            self.heave_only=1-self.heave_only;
             
     #Get linearised mass, damping and spring coefficent        
     def pto_mdc (self):
@@ -282,6 +285,8 @@ class WEC():
           dx[2]=0#-alpha_lim;
           if dx[3] < 0:
               dx[3]=-dx[2]*10;
+      dx[3]=dx[3]*self.heave_only;
+      dx[2]=dx[2]*self.heave_only;
       dx[5]=0;
       dx[4]=0;
       dx[7]=0;
