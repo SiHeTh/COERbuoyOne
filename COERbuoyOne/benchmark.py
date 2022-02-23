@@ -37,7 +37,7 @@ def reg_wave(H,p,n,ctrl):
     t2=np.max([t0+p*3,0]);#6
     t=np.arange(0,t2,1/(omega_cut_off))
     y=H/2*np.sin(2*np.pi/p*t)
-    return COERbuoy.start_simu(time=t,wave=y,name=n, t0=t0, control=ctrl )#/(9.81*9.81*1000/(32*np.pi)*H**2*p)
+    return COERbuoy.start_simu(wave=COERbuoy.simulation.wave_series.fromLists(t,y,"regular_wave"),name=n, t0=t0, control=ctrl )#/(9.81*9.81*1000/(32*np.pi)*H**2*p)
 
 
 # Brettschneider wave (significant wave height, energy period, name, control)
@@ -57,7 +57,7 @@ def brettschneider_wave(Hs,p,n,ctrl):
     y=np.sum(np.sqrt(2*S*(omega[1]-omega[0]))*np.sin(omega*t.reshape(t.size,1)+phase),1)
     
         
-    return COERbuoy.start_simu(time=t,wave=y,name=n, t0=t0, control=ctrl )
+    return COERbuoy.start_simu(wave=COERbuoy.simulation.wave_series.fromLists(t,y,"bretschneider_wave"),name=n, t0=t0, control=ctrl )
 
 # Brettschneider wave (significant wave height, energy period, name, control, WEC parameter file)
 def brettschneider2_wave(Hs,p,n,ctrl):
@@ -74,7 +74,7 @@ def brettschneider2_wave(Hs,p,n,ctrl):
     y=np.sum(np.sqrt(2*S*(omega[1]-omega[0]))*np.sin(omega*t.reshape(t.size,1)+phase),1)
     
         
-    return COERbuoy.start_simu(time=t,wave=y,name=n, t0=t0, control=ctrl)
+    return COERbuoy.start_simu(wave=COERbuoy.simulation.wave_series.fromLists(t,y,"bretschneider_wave"),name=n, t0=t0, control=ctrl)
 
 
 def quartil (a, p):
@@ -91,11 +91,13 @@ def benchmark(ctrl,easy):
     #Write settings file
     if (easy):
         with open("coerbuoy_settings.txt","w") as f:
-            f.write("""{"hydro":"Floater_BEM",\n"WECfolder":"""+'"'+os.path.join(pkg_dir,"coerbuoy1").replace("\\","/")+'"'+""",\n"resolution":0.01\n,"status_message":[1,1,1,1,1,1,1,1]}""");
+            f.write("""{"hydro":"Floater_BEM",\n"WECfolder":"""+'"'+os.path.join(pkg_dir,"coerbuoy1").replace("\\","/")+'"'+""",\n"WECfolder_ideal":"""+'"'+os.path.join(pkg_dir,"coerbuoy1_ideal").replace("\\","/")+'"'+""",\n"resolution":0.01\n,"status_message":[1,1,1,1,1,1,1,1]}""");
     else:
         with open("coerbuoy_settings.txt","w") as f:
-            f.write("""{"hydro":"Floater_BEM",\n"WECfolder":"""+'"'+os.path.join(pkg_dir,"coerbuoy1").replace("\\","/")+'"'+""",
-"resolution":0.01,
+            f.write("""{"hydro":"Floater_BEM",\n"WECfolder":"""+'"'+os.path.join(pkg_dir,"coerbuoy1").replace("\\","/")+'"'+""",\n"WECfolder_ideal":"""+'"'+os.path.join(pkg_dir,"coerbuoy1_ideal").replace("\\","/")+'"'+""",
+"resolution":0.1,
+"dt_controller": 0.1,
+"ode_time_step": 0.05,
 "status_message":[1,0,0,1,1,1,1,1]}""");
 
     power=0;
@@ -164,13 +166,13 @@ def benchmark(ctrl,easy):
 {"type":"cone","coord":[0,4,1,3.7]},
 {"type":"cone","coord":[1,3.7,2,3]},
 {"type":"cone","coord":[2,3,4.5,0]}],
-"negative_spring_force":"""+str(500000*(1+rand1[j1]*0.2))+""",
-"negative_spring_length":1.85,
+"negative_spring_force":"""+str(450000*(1+rand1[j1]*0.2))+""",
+"negative_spring_length":1.6,
 "negative_spring_stroke":5,
 "viscous_drag_coefficient_heave":0.2,
 "viscous_drag_coefficient_surge":0.2,
 "mass_fraction_floater":0.8,
-"generator_Rc":3,
+"generator_Rc":2,
 "generator_c_L":60,
 "generator_c_lambda":4000,
 "generator_I_s":300,
@@ -179,14 +181,15 @@ def benchmark(ctrl,easy):
 "friction_force_kinetic":15000,
 "friction_damping":"""+str(7500*(1+rand3[j1]*0.4))+""",
 "angle_limit":15,
-"l_mooring":"""+str(20*(1+rand4[j1]*0.2))+""",
-"angle_limit":15
+"l_mooring":"""+str(40*(1+rand4[j1]*0.2))+""",
+"pitch_stiffness":10,
+"pitch_damping":5
 }""");
         f.close();
 
         
         print("Write to "+os.path.join(folder,"benchmark"+str(j1)+".csv"));
-        cw[j1]=cw[j1]+1/3*fktdict[fkt[j1]](heights[j1],periods[j1],os.path.join(folder,"benchmark"+str(j1)+".csv"),ctrl)/power(periods[j1],heights[j1]);
+        cw[j1]=cw[j1]+1/3*fktdict[fkt[j1]](heights[j1],periods[j1],os.path.join(folder,"benchmark"+str(j1)+".csv"),ctrl)[2]/power(periods[j1],heights[j1]);
     print(cw)
     constraint_score=np.zeros(len(rand1));
     power_score=np.zeros(len(rand1));
