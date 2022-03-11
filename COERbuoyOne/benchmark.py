@@ -18,6 +18,7 @@ from scipy.interpolate import interp1d;
 import xml.etree.ElementTree as xml;
 from datetime import date;
 import os;
+import COERbuoy.utils as u;
 
 pkg_dir=os.path.dirname(__file__);
 
@@ -166,7 +167,7 @@ def benchmark(ctrl,easy):
 {"type":"cone","coord":[0,4,1,3.7]},
 {"type":"cone","coord":[1,3.7,2,3]},
 {"type":"cone","coord":[2,3,4.5,0]}],
-"negative_spring_force":"""+str(450000*(1+rand1[j1]*0.2))+""",
+"negative_spring_force":"""+str(450000*(1-0.2+rand1[j1]*0.4))+""",
 "negative_spring_length":1.6,
 "negative_spring_stroke":5,
 "viscous_drag_coefficient_heave":0.2,
@@ -177,11 +178,11 @@ def benchmark(ctrl,easy):
 "generator_c_lambda":4000,
 "generator_I_s":300,
 "heave_only":"""+str(easy)+""",
-"friction_force_static":"""+str(30000*(1+rand2[j1]*0.2))+""",
+"friction_force_static":"""+str(30000*(1-0.2+rand2[j1]*0.4))+""",
 "friction_force_kinetic":15000,
-"friction_damping":"""+str(7500*(1+rand3[j1]*0.4))+""",
+"friction_damping":"""+str(7500*(1-0.4+rand3[j1]*0.8))+""",
 "angle_limit":15,
-"l_mooring":"""+str(40*(1+rand4[j1]*0.2))+""",
+"l_mooring":"""+str(40*(1-0.2+rand4[j1]*0.4))+""",
 "pitch_stiffness":10,
 "pitch_damping":5
 }""");
@@ -293,24 +294,36 @@ def benchmark(ctrl,easy):
 
 def run():
     ctrl="help";
+    easy=0;
+    u.get()
+    clist=u.get_controller();
     print("Welcome to the COERbuoy1 benchmark tool!")
     print("2021 by the Centre of Ocean Energy Research at Maynooth University")
     print("\nThis tool aims to test controller for Wave Energy Converter with a realisic numerical model.\n")
+    print("\nPress e for easy mode. Press any other key to continue in normal mode.\n")
+    if input()=='e':
+        easy=1;
+    clist.append("exit");
+    clist.append("custom command");
     print("\nPlease select a controller to test.")
-    print("Enter help for examples and further information.")
-    
-    #print("\nFor example type python3 <filename.py> or py <filename.py> if your controller is written in python")
-    while (ctrl == "help"):
-        ctrl=input();
-        if ctrl == "help":
-            print("The controller you are referring to should be in the folder "+os.getcwd()+", or use absolute filenames.\n")        
-            print("Run a controller written in python:\npython <filename.py>\npython3 <filename.py>\npy <filename>")
-            print("Run a controller written in octave:\noctave <filename.m>")
-            print("\nSpecial commands:\nTCP - opens a TCP socket\nlinear - enter test with a linear damping\nhelp - show help\nexit - close program")
-    
+    for (i,e) in enumerate(clist):
+        print(str(i+1)+". "+e);
+    select=int(input());
+    if (isinstance(select,int) and select>0 and select<len(clist)):
+        ctrl=clist[select-1];
+    else:
+        print("Enter help for examples and further information.")
+        
+        while (ctrl == "help"):
+            ctrl=input();
+            if ctrl == "help":
+                print("The controller you are referring to should be in the folder "+os.getcwd()+", or use absolute filenames.\n")        
+                print("Run a controller written in python:\npython <filename.py>\npython3 <filename.py>\npy <filename>")
+                print("Run a controller written in octave:\noctave <filename.m>")
+                print("\nSpecial commands:\nTCP - opens a TCP socket\nlinear - enter test with a linear damping\nhelp - show help\nexit - close program")
+        
     if (ctrl != "exit"):
-        print(ctrl)
-        benchmark(ctrl,0);
+        benchmark(ctrl,easy);
 
 if __name__ == "__main__":
     run();
