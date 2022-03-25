@@ -123,7 +123,7 @@ def benchmark(ctrl,easy):
         Fe=1.4*H/2*fe;
         Pmax1=Fe**2/(8*R);
         u1=Fe/(2*R);
-        if (u1>3.5):
+        if (u1/w>3.5):
           u=w*3.5;
           Pmax1=u**2/2*(Fe/u-R);
           
