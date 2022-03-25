@@ -1,5 +1,6 @@
 ![COERbuoy1 logo](coerbuoyOne.png)
 # COERbuoy1 model & benchmark
+## IMPORTANT: New version 0.3 will be released soon (see branch dev_v1)
 A realistic benchmark for Wave Enegery Converter controllers
 
 The commands how to run python might differ between systems, and the ones presented here might not work on every machine. Please see https://www.python.org/ to find the correct commands for your system.
