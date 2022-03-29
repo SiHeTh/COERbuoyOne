@@ -14,7 +14,7 @@ setup(
        "numpy",
        "scipy",
        "pandas",
-       "COERbuoy",
+       "COERbuoy>=0.3",
    ],
    include_package_data=True,
 )

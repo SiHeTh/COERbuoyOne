@@ -1,6 +1,7 @@
 ![COERbuoy1 logo](coerbuoyOne.png)
 # COERbuoy1 model & benchmark
-A realistic benchmark for Wave Enegery Converter controllers
+## Version 0.3 -- coerbouy.maynoothuniversity.ie
+A realistic benchmark for wave energy converter controllers
 
 The commands how to run python might differ between systems, and the ones presented here might not work on every machine. Please see https://www.python.org/ to find the correct commands for your system.
 
@@ -36,7 +37,7 @@ Run graphical user interface:
 
 COERbuoyOne is an extension for the [COERbuoy platform](https://github.com/SiHeTh/COERbuoy), which provides further documentation and [examples] (https://github.com/SiHeTh/COERbuoy/tree/main/examples).
 
-A graphical documentation can be found in the [docs folder](https://github.com/SiHeTh/COERbuoyOne/tree/master/docs).
+Documentation can be found in the [docs folder](https://github.com/SiHeTh/COERbuoyOne/tree/master/docs).
 
 #Funding
-This research was part-funded byScience Foundation Ireland (SFI) through MaREI, the SFI Research Centre for Energy, Climate, and Marine [Grant No: 12/RC/2302 P2], with supporting funding obtained from CorPower Ocean AB.
+This research was part-funded by Science Foundation Ireland (SFI) through MaREI, the SFI Research Centre for Energy, Climate, and Marine [Grant No: 12/RC/2302 P2], with supporting funding obtained from CorPower Ocean AB.
