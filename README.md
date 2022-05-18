@@ -35,7 +35,7 @@ Run graphical user interface:
 
 ##Documentation and further information
 
-COERbuoyOne is an extension for the [COERbuoy platform](https://github.com/SiHeTh/COERbuoy), which provides further documentation and [examples] (https://github.com/SiHeTh/COERbuoy/tree/main/examples).
+COERbuoyOne is an extension for the [COERbuoy platform](https://github.com/SiHeTh/COERbuoy), which provides further documentation and [examples](https://github.com/SiHeTh/COERbuoy/tree/main/examples).
 
 A graphical documentation can be found in the [docs folder](https://github.com/SiHeTh/COERbuoyOne/tree/master/docs).
 
